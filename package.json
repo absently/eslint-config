@@ -1,0 +1,35 @@
+{
+  "name": "@absently/eslint-config",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/absently/eslint-config"
+  },
+  "description": "Style guide",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write --plugin-search-dir=. . && eslint --fix .",
+    "lint": "eslint ."
+  },
+  "peerDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "eslint-config-standard": "^16.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-svelte3": "^3.2.1",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.5.1",
+    "svelte": "^3.44.3"
+  }
+}
