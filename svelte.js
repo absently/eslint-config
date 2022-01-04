@@ -8,6 +8,9 @@ module.exports = {
     {
       files: [ '*.svelte' ],
       processor: 'svelte3/svelte3',
+      rules: {
+        'import/first': 'off',
+      },
     },
   ],
 }
