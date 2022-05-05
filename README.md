@@ -5,7 +5,7 @@ Code style: Prettier for re-printing; ESLint for linting and additional formatti
 ## Usage
 
 ```sh
-pnpm add -D @absently/eslint-config eslint eslint-plugin-import eslint-plugin-node eslint-plugin-promise prettier
+pnpm add -D @absently/eslint-config eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise prettier
 ```
 
 Add `"extends": "@absently"` to your `.eslintrc`.
@@ -54,25 +54,13 @@ pnpm add --global eslint_d @fsouza/prettierd
 ```lua
 -- ~/.config/nvim/lua/formatting.lua
 
-local formatter = require('formatter')
+local defaults = require('formatter.defaults')
+local util = require('formatter.util')
 
-local prettier = function()
-  return {
-    exe = 'prettierd',
-    args = {vim.api.nvim_buf_get_name(0)},
-    stdin = true,
-  }
-end
+local prettier = util.copyf(defaults.prettierd)
+local eslint = util.copyf(defaults.eslint_d)
 
-local eslint = function()
-  return {
-    exe = 'eslint_d',
-    args = {'--stdin', '--fix-to-stdout', '--stdin-filename', vim.api.nvim_buf_get_name(0)},
-    stdin = true,
-  }
-end
-
-formatter.setup({
+require('formatter').setup({
   filetype = {
     javascript = {
       prettier,
