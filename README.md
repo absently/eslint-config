@@ -65,6 +65,10 @@ require('formatter').setup({
       prettier,
       eslint,
     },
+    svelte = {
+      prettier,
+      eslint,
+    },
   },
 })
 ```
