@@ -34,8 +34,7 @@ Then add the following to your Prettier configuration file:
 
 ```json
 {
-  "plugins": ["prettier-plugin-svelte"],
-  "htmlWhitespaceSensitivity": "ignore"
+  "plugins": ["prettier-plugin-svelte"]
 }
 ```
 
