@@ -1,8 +1,12 @@
-module.exports = {
-  extends: [ 'eslint:recommended', 'standard' ],
-  rules: {
-    'array-bracket-spacing': [ 'error', 'always' ],
-    'arrow-parens': [ 'error', 'always' ],
-    'comma-dangle': [ 'error', 'always-multiline' ],
+import neostandard from 'neostandard'
+
+export default [
+  ...neostandard(),
+  {
+    rules: {
+      '@stylistic/array-bracket-spacing': [ 'error', 'always' ],
+      '@stylistic/arrow-parens': [ 'error', 'always' ],
+      '@stylistic/comma-dangle': [ 'error', 'always-multiline' ],
+    },
   },
-}
+]

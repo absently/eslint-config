@@ -5,16 +5,20 @@ Code style: Prettier for re-printing; ESLint for linting and additional formatti
 ## Usage
 
 ```sh
-pnpm add -D @absently/eslint-config eslint eslint-plugin-import eslint-plugin-n eslint-plugin-promise prettier
+pnpm add -D @absently/eslint-config eslint prettier
 ```
 
-Add `"extends": "@absently"` to your `.eslintrc`.
+Add an `eslint.config.js` that exports this config:
+
+```js
+export { default } from '@absently/eslint-config'
+```
 
 Include the following `format` script in your `package.json`:
 
 ```json
 "scripts": {
-  "format": "prettier --write --plugin-search-dir=. . && eslint --fix ."
+  "format": "prettier --write . && eslint --fix ."
 }
 ```
 
@@ -25,64 +29,60 @@ Include the following `format` script in your `package.json`:
 Install these additional peer dependencies:
 
 ```sh
-pnpm add -D eslint-plugin-svelte3 prettier-plugin-svelte
+pnpm add -D eslint-plugin-svelte prettier-plugin-svelte
 ```
 
-And instead set `"extends": "@absently/eslint-config/svelte"` in your `.eslintrc`.
+And instead export the svelte config:
+
+```js
+export { default } from '@absently/eslint-config/svelte'
+```
 
 Then add the following to your Prettier configuration file:
 
-```json
+```js
 {
-  "plugins": ["prettier-plugin-svelte"]
+  plugins: ['prettier-plugin-svelte']
 }
 ```
 
-## Editor config
+## Neovim config
 
 Spawn linters as daemons for ludicrous speed:
 
 ```sh
-pnpm add --global eslint_d @fsouza/prettierd
+:MasonInstall eslint_d prettierd
 ```
 
-### Neovim
-
-#### formatter.nvim
+### formatter.nvim
 
 ```lua
--- ~/.config/nvim/lua/formatting.lua
+-- ~/.config/nvim/lua/plugins/formatting.lua
+return {
+  {
+    'mhartington/formatter.nvim',
+    config = function()
+      local defaults = require('formatter.defaults')
+      local util = require('formatter.util')
 
-local defaults = require('formatter.defaults')
-local util = require('formatter.util')
+      local prettier = util.copyf(defaults.prettierd)
+      local eslint = util.copyf(defaults.eslint_d)
 
-local prettier = util.copyf(defaults.prettierd)
-local eslint = util.copyf(defaults.eslint_d)
+      require('formatter').setup({
+        filetype = {
+          javascript = {
+            prettier,
+            eslint,
+          },
+          svelte = {
+            prettier,
+            eslint,
+          },
+        },
+      })
 
-require('formatter').setup({
-  filetype = {
-    javascript = {
-      prettier,
-      eslint,
-    },
-    svelte = {
-      prettier,
-      eslint,
-    },
-  },
-})
-```
-
-```vim
-" ~/.config/nvim/init.vim
-
-lua require('formatting')
-nnoremap <silent> <leader>f :Format<CR>
-```
-
-#### ALE
-
-```vim
-let g:ale_javascript_eslint_executable='eslint_d'
-let g:ale_javascript_eslint_use_global=1
+      vim.keymap.set('n', '<leader>F', ':Format<CR>')
+    end
+  }
+}
 ```

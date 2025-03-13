@@ -1,17 +1,29 @@
-module.exports = {
-  extends: './index.js',
-  plugins: [ 'svelte3' ],
-  env: {
-    browser: true,
-  },
-  overrides: [
-    {
-      files: [ '*.svelte' ],
-      processor: 'svelte3/svelte3',
-      rules: {
-        'import/first': 'off',
-        'no-multiple-empty-lines': [ 'error', { max: 1, maxBOF: 2, maxEOF: 0 } ],
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import svelte from 'eslint-plugin-svelte'
+import globals from 'globals'
+import recommended from './index.js'
+
+export default [
+  ...recommended,
+  ...svelte.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
       },
     },
-  ],
-}
+  },
+  {
+    files: [ '**/*.svelte', '**/*.svelte.js' ],
+    languageOptions: {
+      parserOptions: {
+        svelteConfig: readFileSync(
+          join(process.cwd(), 'svelte.config.js'),
+          'utf8',
+        ),
+      },
+    },
+  },
+]
